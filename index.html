@@ -172,7 +172,8 @@ hr.div{border:none;border-top:1px solid #1e1e40;margin:12px 0}
       <button class="btn sm" onclick="addZ(.1)">+</button>
       <button class="btn sm" onclick="fitZ()">Fit</button>
     </span>
-    <button class="btn acc" style="margin-left:auto" onclick="dlPNG()">⬇ Download PNG</button>
+    <button class="btn" style="margin-left:auto;border-color:#e94560;color:#e94560" onclick="clearBoard()">🗑 Clear Board</button>
+    <button class="btn acc" onclick="dlPNG()">⬇ Download PNG</button>
   </div>
   <div id="canouter">
     <canvas id="canvas" width="1080" height="1920"></canvas>
@@ -816,6 +817,12 @@ function updFile(id,file){ if(!file)return; fileToImg(file,img=>{const c=cards.f
 /* ════════════════════════════
    DOWNLOAD & TOAST
 ════════════════════════════ */
+function clearBoard(){
+  if(cards.length===0){toast('Board is already empty');return;}
+  if(!confirm('Remove all '+cards.length+' card'+(cards.length>1?'s':'')+' from the board?')) return;
+  cards=[]; renderList(); render(); toast('Board cleared');
+}
+
 function dlPNG(){ draw(); setTimeout(()=>{ const a=document.createElement('a'); a.download='poster.png'; a.href=canvas.toDataURL('image/png'); a.click(); toast('PNG saved!'); },150); }
 function toast(m){ const el=document.getElementById('toast'); el.textContent=m; el.style.opacity='1'; clearTimeout(toast._t); toast._t=setTimeout(()=>el.style.opacity='0',2200); }
 
